@@ -1,0 +1,11 @@
+gh0st.cn
+/gh0st.cn
+//gh0st.cn
+///gh0st.cn
+////gh0st.cn
+/\gh0st.cn
+%2fgh0st.cn
+%2f$2fgh0st.cn
+%2fgh0st.cn%2f%2f
+$2f%2fgh0st.cn%2f%2f
+%2fgh0st.cn//
