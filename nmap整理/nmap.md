@@ -264,3 +264,50 @@ nmap -vv -p1-100 -O <target ip>
 ```
 nmap -vv -p1-100 -O 10.1.112.89
 ```
+
+# 论Nmap中一些常用的NSE脚本
+
+```
+nmap IP --script http-enum
+```
+
+使用了WordPress。于是，我们可以使用针对WordPress的脚本http-wordpress-enum进行深度扫描。这个脚本还会确定网站使用了多少和WordPress相关的插件。
+```
+nmap -p80 --sc ript http-wordpress-enum --script-args http-wordpress-enum.search-limit=all ip
+```
+
+## 权限
+
+假如我们想在站点上寻找登录授权页面，还可使用如下脚本http-auth-finder。
+
+
+你也可以使用命令参数—script=auth，所有和授权有关的脚本都将被启用，对目标主机进行探测。而一旦找到和登录授权有关的页面，我们就可以尝试使用类似于http-form-brute的脚本爆破出一些账户密码：
+```
+nmap -p-80 --script=http-form-brute --script-args=http-form-brute.path=/wp-login.php ip
+```
+
+site.test.lan的管理员密码为12345。
+
+对于WordPress来说，Nmap已做的足够出色，它获取了大量和渗透有关的信息，而如果想对WordPress进行更深一步的漏洞探测，你也可以使用已集成在kali linux中的WPScan，这款软件有大量专门针对WordPress的PoC。
+
+##FTP
+
+而通常开放在21端口的FTP服务也往往是爆破对象，我们可以先使用脚本ftp-syst获取一些服务信息:
+```
+nmap -p21 --script ftp-syst ip
+```
+之后使暴力破解脚本得到FTP服务的用户密码:
+```
+nmap -p21 192.168.60.50 --script ftp-brute --script-args userdb=/root/user.txt,passdb=/root/pass.txt
+```
+## MySQL
+
+Nmap也可对MySQL服务（通常开放在端口3306上）进行扫描爆破，脚本mysql-info将探测出一些MySQ服务的详细信息(需要带上命令参数-sV -sC)：
+
+nmap -p3306 -sV -sC site.test.lan
+
+
+
+
+
+
